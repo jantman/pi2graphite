@@ -123,4 +123,16 @@ EOF
     echo "Adding network configuration"
     echo "$netconf" >> "${TMPDIR}/etc/wpa_supplicant/wpa_supplicant.conf"
   fi
+  echo "Downloading drivers for my WiFi adapters..."
+  wget -O "${TMPDIR}/root/xtknight-mt7610u-linksys-ae6000-wifi-fixes_1.cd80ce6-1_armhf.deb" http://jantman-personal-public.s3-website-us-east-1.amazonaws.com/xtknight-mt7610u-linksys-ae6000-wifi-fixes_1.cd80ce6-1_armhf.deb
+  wget -O "${TMPDIR}/root/8192eu_1.4.4.38.938-1_armhf.deb" http://jantman-personal-public.s3-website-us-east-1.amazonaws.com/8192eu_1.4.4.38.938-1_armhf.deb
+  if [[ ! -e /etc/network/interfaces.d/ra0 ]]; then
+    ra0conf=$(cat <<EOF
+allow-hotplug ra0
+iface ra0 inet manual
+    wpa-conf /etc/wpa_supplicant/wpa_supplicant.conf
+EOF
+    )
+    echo "$ra0conf" > /etc/network/interfaces.d/ra0
+  fi
 fi
