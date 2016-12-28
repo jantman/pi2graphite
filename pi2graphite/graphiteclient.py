@@ -79,7 +79,8 @@ class CachingGraphiteClient(object):
         :rtype: str
         """
         parts = [
-            "%s %s %d\n" % (t[0], t[1], t[2]) for t in data_list
+            "%s.%s %s %d\n" % (
+                self._metric_prefix, t[0], t[1], t[2]) for t in data_list
         ]
         return "\n".join(parts) + "\n"
 
