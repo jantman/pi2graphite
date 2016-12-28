@@ -126,8 +126,9 @@ running hostapd, logged events for it like:
     disassociated
 
 From what I can tell, this was due to low entropy (about 900 bytes according to
-``/proc/sys/kernel/random/entropy_avail``) on the Pi. I fixed this with
-``apt-get install haveged`` which runs an entropy-generating daemon.
+``/proc/sys/kernel/random/entropy_avail``) on the Pi. I made this better with
+``apt-get install haveged`` which runs an entropy-generating daemon. However, my
+real fix was adding the ``wifi_fixer.sh`` script to root's crontab every 5 minutes.
 
 One-Wire Temperature Sensors
 ++++++++++++++++++++++++++++
