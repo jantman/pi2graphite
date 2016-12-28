@@ -23,11 +23,14 @@ bin/python setup.py develop
 PYTHON=$(readlink -f bin/python)
 echo "Found python binary as: $PYTHON"
 BINPATH=$(readlink -f bin/pi2graphite)
+echo "Found pi2graphite binary as: $BINPATH"
 
 # add templated systemd unit
-
-# systemctl daemon-reload
-cat <<EOF >/etc/systemd/system/pi2graphite.service
+if [[ -e /etc/systemd/system/pi2graphite.service ]]; then
+    echo "Systemd unit already exists at: /etc/systemd/system/pi2graphite.service"
+else
+    echo "Templating systemd unit file at: /etc/systemd/system/pi2graphite.service"
+    cat <<EOF >/etc/systemd/system/pi2graphite.service
 [Unit]
 Description=pi2graphite service
 
@@ -37,9 +40,17 @@ ExecStart=$PYTHON $BINPATH
 RestartSec=10
 Restart=always
 EOF
+    echo "Executing systemctl daemon-reload"
+    systemctl daemon-reload
+fi
 
 # enable service
-
+if systemctl list-unit-files | grep pi2graphite | grep -q enabled; then
+    echo "systemd service already enabled"
+else
+    echo "enabling systemd service"
+    systemctl enable pi2graphite.service
+fi
 
 if [[ -e /etc/pi2graphite.json ]]; then
     echo "Config file already exists at: /etc/pi2graphite.json"
