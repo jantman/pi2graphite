@@ -130,10 +130,11 @@ def main(args=None):
 
     # get our config
     config = Config(args.config)
-    if config.logging_level == 'DEBUG':
-        set_log_debug()
-    elif config.logging_level == 'INFO':
-        set_log_info()
+    if args.verbose == 0:
+        if config.logging_level == 'DEBUG':
+            set_log_debug()
+        elif config.logging_level == 'INFO':
+            set_log_info()
 
     handler = MetricsHandler(config)
     handler.run()
