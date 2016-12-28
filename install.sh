@@ -39,6 +39,9 @@ Type=simple
 ExecStart=$PYTHON $BINPATH
 RestartSec=10
 Restart=always
+
+[Install]
+WantedBy=default.target
 EOF
     echo "Executing systemctl daemon-reload"
     systemctl daemon-reload
