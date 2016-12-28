@@ -90,6 +90,9 @@ echo "Done mounting SD card; chroot'ing"
 echo "Touching boot/ssh"
 touch "${TMPDIR}/boot/ssh"
 
+echo "Enabling 1wire module"
+grep -q '^dtoverlay=w1-gpio' /boot/config.txt || echo 'dtoverlay=w1-gpio,pullup=1' >> /boot/config.txt
+
 PI_UID=$(stat --printf='%u' "${TMPDIR}/home/pi")
 PI_GID=$(stat --printf='%g' "${TMPDIR}/home/pi")
 echo "Found pi user; UID=${PI_UID} GID=${PI_GID}"

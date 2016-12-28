@@ -26,7 +26,8 @@ I used this same process for
     3. Copy over a specified authorized_keys file to the pi user.
     4. Set the hostname.
     5. If the arguments were specified, configure wifi.
-    6. Umount the SD card and remove the remporary directory.
+    6. Enable the ``w1-gpio`` kernel module in ``/boot/config.txt``, with the ``pullup=1`` parameter for a pullup resistor.
+    7. Umount the SD card and remove the remporary directory.
 3. Remove the SD card and put it in the pi, then boot it. Eventually, it _should_
    join your WiFi network and get an IP address, at which point you can SSH to it.
 4. When you SSH in, you may want to run [``raspi-config``](https://github.com/RPi-Distro/raspi-config) to do things such as setting the locale and timezone. If the SSH authorized keys setup failed, the default Raspbian user is named ``pi``, with the password ``raspberry``. You may want to change the password, but I'm
