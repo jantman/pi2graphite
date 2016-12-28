@@ -38,6 +38,9 @@ Jason Antman <jason@jasonantman.com> <http://www.jasonantman.com>
 import logging
 import time
 
+import pythonwifi.flags
+from pythonwifi.iwlibs import Wireless, Iwstats, getWNICnames
+
 logger = logging.getLogger(__name__)
 
 
@@ -55,3 +58,75 @@ class WifiCollector(object):
         """
         logger.info('Polling WiFi stats')
         ts = int(time.time())
+        stats = []
+        try:
+            nicnames = getWNICnames()
+        except Exception:
+            logger.error('Error getting WNIC names; cannot poll wifi',
+                         exc_info=True)
+            return []
+        for n in nicnames:
+            try:
+                stats.extend(self._poll_nic(ts, n))
+            except Exception:
+                logger.error('Error polling NIC %s', n, exc_info=True)
+        return stats
+
+    def _poll_nic(self, ts, nicname):
+        """
+        Poll one NIC
+
+        :param ts: data timestamp
+        :type ts: int
+        :param nicname: NIC name
+        :type nicname: str
+        :return: data list of metric 3-tuples (name, value, timestamp)
+        :rtype: list
+        """
+        stats = [('%s.associated' % nicname, 1, ts)]
+        logger.debug('Polling NIC: %s', nicname)
+        wifi = Wireless(nicname)
+        if wifi.getAPaddr() == '00:00:00:00:00:00':
+            # unassociated; return that one stat now
+            logger.warning('%s not associated (AP address 00:00:00:00:00:00',
+                           nicname)
+            return [('%s.associated' % nicname, 0, ts)]
+        # tx power
+        try:
+            txpwr = wifi.wireless_info.getTXPower()
+        except IOError:
+            try:
+                txpwr = wifi.getTXPower()
+            except IOError:
+                logger.debug('Could not get TX Power for %s', nicname)
+                txpwr = None
+        if txpwr is not None:
+            stats.append(('%s.txpower_dbm' % nicname, txpwr, ts))
+        # bitrate
+        try:
+            br = wifi.wireless_info.getBitrate().value
+            stats.append(('%s.bitrate' % nicname, br, ts))
+        except Exception:
+            logger.warning('Could not get birtate for %s', nicname, exc_info=1)
+        # RTS
+        try:
+            rts = wifi.wireless_info.getRTS().value
+            stats.append(('%s.rts' % nicname, rts, ts))
+        except Exception:
+            logger.warning('Could not get RTS for %s', nicname, exc_info=1)
+        # statistics
+        try:
+            s = Iwstats('wlan0')
+            for k in s.discard.keys():
+                stats.append(
+                    ('%s.discard_%s' % (nicname, k),
+                     s.discard.get(k, 0), ts)
+                )
+            stats.append(('%s.missed_beacons' % nicname, s.missed_beacon, ts))
+            # Current Quality
+            stats.append(('%s.quality' % nicname, s.qual.quality, ts))
+            stats.append(('%s.noise_level' % nicname, s.qual.nlevel, ts))
+            stats.append(('%s.signal_level' % nicname, s.qual.siglevel, ts))
+        except Exception:
+            logger.warning('Could not get stats for %s', nicname, exc_info=1)
+        return stats

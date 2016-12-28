@@ -41,6 +41,7 @@ from time import sleep
 
 from pi2graphite.graphiteclient import CachingGraphiteClient
 from pi2graphite.wifi_collector import WifiCollector
+from pi2graphite.onewire_collector import OneWireCollector
 
 logger = logging.getLogger(__name__)
 
@@ -62,6 +63,7 @@ class MetricsHandler(object):
             port=self._config.graphite_port,
             metric_prefix=self._config.metric_prefix
         )
+        self._1wire = OneWireCollector()
         if self._config.send_wifi_metrics:
             self._wifi_collector = WifiCollector()
 
@@ -82,7 +84,7 @@ class MetricsHandler(object):
         :rtype: tuple
         """
         results = []
-        # instantiate a class to poll 1w sensors, and poll them.
+        results.extend(self._1wire.poll())
         if self._config.send_wifi_metrics:
             results.extend(self._wifi_collector.poll())
         return results
