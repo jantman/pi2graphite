@@ -35,46 +35,19 @@ Jason Antman <jason@jasonantman.com> <http://www.jasonantman.com>
 ##################################################################################
 """
 
-from setuptools import setup, find_packages
-from pi2graphite.version import VERSION, PROJECT_URL
+import sys
 
-with open('README.rst') as file:
-    long_description = file.read()
 
-requires = [
-    'python-wifi>=0.6.1,<0.7.0'
-]
-
-classifiers = [
-    'Development Status :: 3 - Alpha',
-    'Environment :: No Input/Output (Daemon)',
-    'Intended Audience :: Developers',
-    'Intended Audience :: End Users/Desktop',
-    'License :: OSI Approved :: GNU Affero General Public License v3 '
-    'or later (AGPLv3+)',
-    'Natural Language :: English',
-    'Operating System :: POSIX :: Linux',
-    'Programming Language :: Python',
-    'Programming Language :: Python :: 2.7',
-    'Programming Language :: Python :: 3',
-    'Topic :: Home Automation'
-]
-
-setup(
-    name='pi2graphite',
-    version=VERSION,
-    author='Jason Antman',
-    author_email='jason@jasonantman.com',
-    packages=find_packages(),
-    url=PROJECT_URL,
-    description='RaspberryPi-targeted app to send 1wire temperature & '
-                'wifi stats to graphite.',
-    long_description=long_description,
-    install_requires=requires,
-    keywords="pi raspberry 1wire 1w graphite",
-    classifiers=classifiers,
-    entry_points="""
-    [console_scripts]
-    pi2graphite = pi2graphite.runner:main
+def exc_msg(exc):
     """
-)
+    Return the message for an exception (py2/py3)
+
+    :param exc: exception to get message for
+    :type exc: Exception
+    :return: exception message
+    :rtype: str
+    """
+    if sys.version_info[0] < 3:
+        return exc.message
+    else:
+        return exc.args[0]

@@ -73,6 +73,13 @@ I used this same process for
 4. When you SSH in, you may want to run `raspi-config <https://github.com/RPi-Distro/raspi-config>`_ to do things such as setting the locale and timezone. If the SSH authorized keys setup failed, the default Raspbian user is named ``pi``, with the password ``raspberry``. You may want to change the password, but I'm
 only running mine on an isolated WiFi network, so I didn't.
 
+Installation
+------------
+
+Raspberian currently ships with Python 2.7.
+
+1. ``apt-get install python-virtualenv python-pip``
+
 Miscellaneous
 -------------
 
