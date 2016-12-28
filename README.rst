@@ -1,7 +1,43 @@
 pi2graphite
 ===========
 
-RaspberryPi-targeted app to send OWFS temperature & wifi stats to graphite.
+RaspberryPi-targeted app to send 1wire temperature & wifi stats to graphite.
+
+.. image:: https://img.shields.io/pypi/v/pi2graphite.svg?maxAge=2592000
+   :target: https://pypi.python.org/pypi/pi2graphite
+   :alt: pypi version
+
+.. image:: http://jantman-personal-public.s3-website-us-east-1.amazonaws.com/pypi-stats/pi2graphite/per-month.svg
+   :target: http://jantman-personal-public.s3-website-us-east-1.amazonaws.com/pypi-stats/pi2graphite/index.html
+   :alt: PyPi downloads
+
+.. image:: https://img.shields.io/github/forks/jantman/pi2graphite.svg
+   :alt: GitHub Forks
+   :target: https://github.com/jantman/pi2graphite/network
+
+.. image:: https://img.shields.io/github/issues/jantman/pi2graphite.svg
+   :alt: GitHub Open Issues
+   :target: https://github.com/jantman/pi2graphite/issues
+
+.. image:: https://landscape.io/github/jantman/pi2graphite/master/landscape.svg
+   :target: https://landscape.io/github/jantman/pi2graphite/master
+   :alt: Code Health
+
+.. image:: https://secure.travis-ci.org/jantman/pi2graphite.png?branch=master
+   :target: http://travis-ci.org/jantman/pi2graphite
+   :alt: travis-ci for master branch
+
+.. image:: https://codecov.io/github/jantman/pi2graphite/coverage.svg?branch=master
+   :target: https://codecov.io/github/jantman/pi2graphite?branch=master
+   :alt: coverage report for master branch
+
+.. image:: https://readthedocs.org/projects/pi2graphite/badge/?version=latest
+   :target: https://readthedocs.org/projects/pi2graphite/?badge=latest
+   :alt: sphinx documentation for latest release
+
+.. image:: http://www.repostatus.org/badges/latest/wip.svg
+   :alt: Project Status: WIP – Initial development is in progress, but there has not yet been a stable, usable release suitable for the public.
+   :target: http://www.repostatus.org/#wip
 
 Overview
 --------
