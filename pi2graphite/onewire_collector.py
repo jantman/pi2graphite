@@ -38,13 +38,16 @@ Jason Antman <jason@jasonantman.com> <http://www.jasonantman.com>
 import logging
 import time
 
+from w1thermsensor import W1ThermSensor
+
 logger = logging.getLogger(__name__)
 
 
 class OneWireCollector(object):
 
-    def __init__(self):
-        pass
+    def __init__(self, config):
+        self._1w = W1ThermSensor()
+        self._config = config
 
     def poll(self):
         """
@@ -56,4 +59,37 @@ class OneWireCollector(object):
         logger.info('Polling w1')
         ts = int(time.time())
         stats = []
+        try:
+            sensors = self._1w.get_available_sensors()
+        except Exception:
+            logger.error("Unable to list 1wire sensors", exc_info=True)
+            return []
+        for sensor in sensors:
+            try:
+                stats.extend(self._poll_sensor(sensor, ts))
+            except Exception:
+                logger.error('Error polling sensor %s', sensor, exc_info=True)
         return stats
+
+    def _poll_sensor(self, sensor, ts):
+        """
+        Return stats for a single sensor.
+
+        :param sensor: The sensor to return stats for
+        :type sensor: w1thermsensor.core.W1ThermSensor
+        :param ts: data timestamp
+        :type ts: int
+        :return: data list of metric 3-tuples (name, value, timestamp)
+        :rtype: list
+        """
+        dirname = '%s%s' % (sensor.slave_prefix, sensor.id)
+        name = self._config.metric_name_for_sensor(dirname)
+        logger.debug('Polling sensor %s%s (metric name: %s)',
+                     sensor.slave_prefix, sensor.id, name)
+        temps = sensor.get_temperatures([
+            W1ThermSensor.DEGREES_C,
+            W1ThermSensor.DEGREES_F])
+        return [
+            ('%s.temp_c' % name, temps[0], ts),
+            ('%s.temp_f' % name, temps[1], ts)
+        ]

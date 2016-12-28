@@ -63,7 +63,7 @@ class MetricsHandler(object):
             port=self._config.graphite_port,
             metric_prefix=self._config.metric_prefix
         )
-        self._1wire = OneWireCollector()
+        self._1wire = OneWireCollector(self._config)
         if self._config.send_wifi_metrics:
             self._wifi_collector = WifiCollector()
 

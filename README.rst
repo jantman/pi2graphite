@@ -114,6 +114,21 @@ I bought a bunch of _cheap_ USB WiFi dongles, all of which either advertised "Li
     2. Reboot. If you don't see a ``wlan0`` interface, you may need to ``depmod $(uname -r) && modprobe 8192eu``.
 * `Kootek Raspberry Pi Wifi Dongle Adapter <https://www.amazon.com/gp/product/B00FWMEFES/>`_ from Amazon (mini bluetooth-style dongle) - worked out of the box
 
+WiFi Deauthentication
++++++++++++++++++++++
+
+I had issues using the Kootek dongle with wpa_supplicant, after a few hours of uptime,
+reporting "CONN_FAILED" and "WRONG_KEY" and not being able to reassociate. My access point,
+running hostapd, logged events for it like:
+
+    associated
+    deauthenticated due to local deauth request
+    disassociated
+
+From what I can tell, this was due to low entropy (about 900 bytes according to
+``/proc/sys/kernel/random/entropy_avail``) on the Pi. I fixed this with
+``apt-get install haveged`` which runs an entropy-generating daemon.
+
 One-Wire Temperature Sensors
 ++++++++++++++++++++++++++++
 
