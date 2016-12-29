@@ -52,6 +52,6 @@ if [[ ! -e /root/.wifi_fixer_last_unassoc ]]; then
 fi
 
 # ok, if we got here, we've been unassoc for at least one cron interval
-echo "pi2graphite.${DEVNAME}.$(hostname).wifi-fixer 1 $(date +%s)" > /var/lib/pi2graphite/$(date +%s)-wififixer
+echo "pi2graphite.$(hostname).${DEVNAME}.wifi-fixer 1 $(date +%s)" > /var/lib/pi2graphite/$(date +%s)-wififixer
 killall /sbin/wpa_supplicant
 ifup --force $DEVNAME
