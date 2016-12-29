@@ -116,7 +116,7 @@ class WifiCollector(object):
             logger.warning('Could not get RTS for %s', nicname, exc_info=1)
         # statistics
         try:
-            s = Iwstats('wlan0')
+            s = Iwstats(nicname)
             for k in s.discard.keys():
                 stats.append(
                     ('%s.discard_%s' % (nicname, k),
