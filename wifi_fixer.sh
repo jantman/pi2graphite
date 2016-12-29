@@ -53,5 +53,6 @@ fi
 
 # ok, if we got here, we've been unassoc for at least one cron interval
 echo "pi2graphite.$(hostname).${DEVNAME}.wifi-fixer 1 $(date +%s)" > /var/lib/pi2graphite/$(date +%s)-wififixer
+logger -t wifi_fixer.sh "Killing wpa_supplicant and forcing up $DEVNAME"
 killall /sbin/wpa_supplicant
 ifup --force $DEVNAME
