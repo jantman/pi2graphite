@@ -63,7 +63,11 @@ class MetricsHandler(object):
             port=self._config.graphite_port,
             metric_prefix=self._config.metric_prefix
         )
-        self._1wire = OneWireCollector(self._config)
+        try:
+            self._1wire = OneWireCollector(self._config)
+        except Exception:
+            logger.error('Exception creating OneWireCollector', exc_info=True)
+            self._1wire = None
         if self._config.send_wifi_metrics:
             self._wifi_collector = WifiCollector()
 
@@ -84,7 +88,12 @@ class MetricsHandler(object):
         :rtype: tuple
         """
         results = []
-        results.extend(self._1wire.poll())
+        try:
+            self._1wire = OneWireCollector(self._config)
+            results.extend(self._1wire.poll())
+        except Exception:
+            logger.error('Exception polling OneWire', exc_info=True)
+            self._1wire = None
         if self._config.send_wifi_metrics:
             results.extend(self._wifi_collector.poll())
         return results
