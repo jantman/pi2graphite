@@ -78,7 +78,11 @@ Installation
 
 Raspberian currently ships with Python 2.7.
 
-1. ``apt-get install python-virtualenv python-pip``
+```
+git clone https://github.com/jantman/pi2graphite.git
+cd pi2graphite/
+./install.sh
+```
 
 Miscellaneous
 -------------
