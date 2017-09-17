@@ -58,7 +58,8 @@ I used this same process for
 
 1. Write the latest `Raspbian Image <https://www.raspberrypi.org/downloads/raspbian/>`_
    to an appropriate SD card. I'm testing using the 2016-11-25 (4.4 kernel)
-   "Raspbian Jessie Lite" image.
+   "Raspbian Jessie Lite" image, and a RPi Zero W using the 2017-09-07 (4.9 kernel)
+   "Raspbian Stretch Lite" image.
 2. When it's done writing, figure out the device name on your system and, as root,
    run ``setup_raspbian.sh`` to configure it. This will:
     1. Create a temporary directory and mount the SD card partitions in it.
@@ -79,6 +80,7 @@ Installation
 Raspberian currently ships with Python 2.7.
 
 ```
+apt-get update && apt-get install git
 git clone https://github.com/jantman/pi2graphite.git
 cd pi2graphite/
 ./install.sh
