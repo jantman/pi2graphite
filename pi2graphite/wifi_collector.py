@@ -93,10 +93,10 @@ class WifiCollector(object):
             return [('%s.associated' % nicname, 0, ts)]
         # tx power
         try:
-            txpwr = wifi.wireless_info.getTXPower()
+            txpwr = wifi.wireless_info.getTXPower().value
         except IOError:
             try:
-                txpwr = wifi.getTXPower()
+                txpwr = wifi.getTXPower().split(' ')[0]
             except IOError:
                 logger.debug('Could not get TX Power for %s', nicname)
                 txpwr = None
