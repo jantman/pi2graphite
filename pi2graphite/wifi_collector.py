@@ -38,7 +38,6 @@ Jason Antman <jason@jasonantman.com> <http://www.jasonantman.com>
 import logging
 import time
 
-import pythonwifi.flags
 from pythonwifi.iwlibs import Wireless, Iwstats, getWNICnames
 
 logger = logging.getLogger(__name__)
