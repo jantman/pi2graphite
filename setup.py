@@ -42,7 +42,7 @@ with open('README.rst') as file:
     long_description = file.read()
 
 requires = [
-    'python-wifi==0.6.1',
+    'python-wifi>=0.6.1',
     'w1thermsensor==0.3.2'
 ]
 
@@ -57,7 +57,6 @@ classifiers = [
     'Operating System :: POSIX :: Linux',
     'Programming Language :: Python',
     'Programming Language :: Python :: 2.7',
-    'Programming Language :: Python :: 3',
     'Topic :: Home Automation'
 ]
 

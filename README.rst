@@ -31,6 +31,13 @@ WiFi) to grab WiFi signal strength metrics and send those as well.
 Hardware Installation/Setup
 ---------------------------
 
+Requirements
+++++++++++++
+
+This package currently only supports Python 2.7. Unfortunately, the
+`python-wifi <https://pypi.python.org/pypi/python-wifi>`_ dependency
+is 2.7 only.
+
 OS Installation on RPi
 ++++++++++++++++++++++
 
