@@ -54,7 +54,7 @@ class OneWireCollector(object):
         Poll. Return a data list of metric 3-tuples (name, value, timestamp)
 
         :return: data list of metric 3-tuples (name, value, timestamp)
-        :rtype: list
+        :rtype: ``list``
         """
         logger.info('Polling w1')
         ts = int(time.time())
@@ -76,11 +76,11 @@ class OneWireCollector(object):
         Return stats for a single sensor.
 
         :param sensor: The sensor to return stats for
-        :type sensor: w1thermsensor.core.W1ThermSensor
+        :type sensor: ``w1thermsensor.core.W1ThermSensor``
         :param ts: data timestamp
         :type ts: int
         :return: data list of metric 3-tuples (name, value, timestamp)
-        :rtype: list
+        :rtype: ``list``
         """
         dirname = '%s%s' % (sensor.slave_prefix, sensor.id)
         name = self._config.metric_name_for_sensor(dirname)

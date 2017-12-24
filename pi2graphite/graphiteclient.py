@@ -74,7 +74,7 @@ class CachingGraphiteClient(object):
 
         :param data_list: list of 3-tuples:
           (metric name, value, integer timestamp)
-        :type data_list: list
+        :type data_list: ``list``
         :return: string to send to Graphite
         :rtype: str
         """
@@ -153,7 +153,7 @@ class CachingGraphiteClient(object):
 
         :param data_list: list of 3-tuples:
           (metric name, value, integer timestamp)
-        :type data_list: list
+        :type data_list: ``list``
         """
         data_s = self._graphite_str(data_list)
         res = self._graphite_send(data_s)

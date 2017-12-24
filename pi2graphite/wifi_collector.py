@@ -53,7 +53,7 @@ class WifiCollector(object):
         Poll. Return a data list of metric 3-tuples (name, value, timestamp)
 
         :return: data list of metric 3-tuples (name, value, timestamp)
-        :rtype: list
+        :rtype: ``list``
         """
         logger.info('Polling WiFi stats')
         ts = int(time.time())
@@ -80,7 +80,7 @@ class WifiCollector(object):
         :param nicname: NIC name
         :type nicname: str
         :return: data list of metric 3-tuples (name, value, timestamp)
-        :rtype: list
+        :rtype: ``list``
         """
         stats = [('%s.associated' % nicname, 1, ts)]
         logger.debug('Polling NIC: %s', nicname)

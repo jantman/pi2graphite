@@ -1,5 +1,5 @@
 pi2graphite
-===============
+===========
 
 .. toctree::
    :maxdepth: 4
