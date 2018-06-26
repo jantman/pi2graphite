@@ -43,7 +43,8 @@ with open('README.rst') as file:
 
 requires = [
     'python-wifi>=0.6.1',
-    'w1thermsensor==0.3.2'
+    'w1thermsensor==0.3.2',
+    'requests'
 ]
 
 classifiers = [
@@ -76,5 +77,6 @@ setup(
     entry_points="""
     [console_scripts]
     pi2graphite = pi2graphite.runner:main
+    pi2hass = pi2graphite.hass:main
     """
 )
