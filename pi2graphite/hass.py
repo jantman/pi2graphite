@@ -117,6 +117,11 @@ class HassSender(object):
             parts = tup[0].split('.')
             if parts[1] != 'temp_f':
                 continue
+            if tup[1] == 185.0:
+                logger.error(
+                    'Got erroneous temperature of 185.0 F; skipping'
+                )
+                continue
             self._do_post(parts[0], tup[1])
         logger.info('Done sending results.')
 
