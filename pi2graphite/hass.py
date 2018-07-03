@@ -95,7 +95,7 @@ class HassSender(object):
     def _do_post(self, name, value):
         sensor_id = 'pi2graphite_1wire_%s' % name
         d = {
-            'state': value,
+            'state': round(value, 2),
             'attributes': {
                 'unit_of_measurement': u'°F',
                 'friendly_name': '%s Temperature' % name.capitalize()
