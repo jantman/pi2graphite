@@ -79,15 +79,20 @@ def parse_args(argv):
                    required=True,
                    help='HomeAssistant base URL, '
                         'i.e. http://hostname:8123')
+    p.add_argument(
+        '-t', '--token', dest='token', action='store', type=str, default=None,
+        help='HomeAssistant Long-Lived Access Token'
+    )
     args = p.parse_args(argv)
     return args
 
 
 class HassSender(object):
 
-    def __init__(self, config, url):
+    def __init__(self, config, url, token=None):
         self._config = config
         self._url = url
+        self._token = token
         if not self._url.endswith('/'):
             self._url += '/'
         self._1wire = OneWireCollector(self._config)
@@ -103,9 +108,12 @@ class HassSender(object):
         }
         url = '%sapi/states/sensor.%s' % (self._url, sensor_id)
         logger.info('POST to %s - %s', url, d)
-        r = requests.post(
-            url, json=d, timeout=10
-        )
+        kwargs = {'json': d, 'timeout': 10}
+        if self._token is not None:
+            kwargs['headers'] = {
+                'Authorization': 'Bearer %s' % self._token
+            }
+        r = requests.post(url, **kwargs)
         logger.info('Server response %s: %s', r.status_code, r.text)
         r.raise_for_status()
 
@@ -177,7 +185,7 @@ def main(args=None):
         elif config.logging_level == 'INFO':
             set_log_info()
 
-    HassSender(config, args.url).send()
+    HassSender(config, args.url, token=args.token).send()
 
 
 if __name__ == "__main__":
